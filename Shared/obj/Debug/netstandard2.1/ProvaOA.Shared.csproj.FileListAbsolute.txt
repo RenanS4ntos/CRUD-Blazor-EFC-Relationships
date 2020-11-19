@@ -1,0 +1,9 @@
+C:\Users\CAIO-PC\Desktop\ProvaOA\Shared\bin\Debug\netstandard2.1\ProvaOA.Shared.deps.json
+C:\Users\CAIO-PC\Desktop\ProvaOA\Shared\bin\Debug\netstandard2.1\ProvaOA.Shared.dll
+C:\Users\CAIO-PC\Desktop\ProvaOA\Shared\obj\Debug\netstandard2.1\ProvaOA.Shared.csprojAssemblyReference.cache
+C:\Users\CAIO-PC\Desktop\ProvaOA\Shared\obj\Debug\netstandard2.1\ProvaOA.Shared.AssemblyInfoInputs.cache
+C:\Users\CAIO-PC\Desktop\ProvaOA\Shared\obj\Debug\netstandard2.1\ProvaOA.Shared.AssemblyInfo.cs
+C:\Users\CAIO-PC\Desktop\ProvaOA\Shared\obj\Debug\netstandard2.1\ProvaOA.Shared.csproj.CoreCompileInputs.cache
+C:\Users\CAIO-PC\Desktop\ProvaOA\Shared\bin\Debug\netstandard2.1\ProvaOA.Shared.pdb
+C:\Users\CAIO-PC\Desktop\ProvaOA\Shared\obj\Debug\netstandard2.1\ProvaOA.Shared.dll
+C:\Users\CAIO-PC\Desktop\ProvaOA\Shared\obj\Debug\netstandard2.1\ProvaOA.Shared.pdb

@@ -1,0 +1,88 @@
+﻿@page "/aluno/create"
+@using System.Net.Http
+
+@* Injeta o HttpClient no client para fazer as requisições HTTP para o Back-End*@
+@inject HttpClient Http  
+
+@* Navegação *@
+@inject NavigationManager NavigationManager
+
+<div class="card m-3">
+    <h4 class="card-header">Cadastro de Aluno</h4>
+    <div class="card-body">
+        <EditForm Model="@AlunoDto" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="form-row">
+                <label>Nome do aluno:</label>
+                <InputText @bind-Value="AlunoDto.Nome" class="form-control" />
+            </div>
+
+            <div class="form-row">
+                <label>Idade:</label>
+                <InputNumber @bind-Value="AlunoDto.Idade" class="form-control" />
+            </div>
+
+            <div class="form-row">
+                <label>Selecione o curso:</label>
+                <InputSelect class="form-control"
+                 ValueExpression="@(()=>AlunoDto.CursoId)"
+                 Value="@AlunoDto.CursoId"
+                 ValueChanged="@((string value) => OnChangeCurso(value))">
+                    <option value="">Selecione o curso...</option>
+                    @foreach (var curso in CursoList)
+                    {
+                        <option value="@curso.CursoId">@curso.Nome</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="form-row">
+                <label>Selecione o mentor:</label>
+                <InputSelect class="form-control" @bind-Value="AlunoDto.ProfessorId">
+                    <option value="">Selecione o mentor...</option>
+                    @foreach (var prof in professoresList)
+                    {
+                        <option value="@prof.ProfessorId">@prof.Nome</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="reset" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private AlunoDto AlunoDto = new AlunoDto();
+    private EditContext editContext { get; set; }
+    private List<Curso> CursoList = new List<Curso>();
+    private List<Professor> professoresList = new List<Professor>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var cursos = await Http.GetFromJsonAsync<List<Curso>>("/curso/list");
+        foreach (var curso in cursos)
+        {
+            CursoList.Add(curso);
+        }
+    }
+
+    private async Task OnChangeCurso(string value)
+    {
+        AlunoDto.CursoId = value; //Seta o valor do Curso no AlunoDto
+        var professores = await Http.GetFromJsonAsync<List<Professor>>("/professor/list");
+        professoresList.Clear();
+        foreach (var prof in professores)
+        {
+            professoresList.Add(prof);
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await Http.PostAsJsonAsync("aluno/create", AlunoDto);
+        NavigationManager.NavigateTo("aluno/list");
+    } }

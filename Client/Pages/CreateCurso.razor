@@ -1,0 +1,33 @@
+﻿@page "/curso/create"
+@using System.Net.Http
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<div class="card m-3">
+    <h4 class="card-header">Cadastro de Curso</h4>
+    <div class="card-body">
+        <EditForm Model="@curso" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="form-row">
+                <label>Nome do Curso:</label>
+                <InputText @bind-Value="curso.Nome" class="form-control" />
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="reset" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code { 
+    private Curso curso = new Curso();
+    private EditContext editContext { get; set; }
+
+    private async Task HandleValidSubmit()
+    {
+        await Http.PostAsJsonAsync("curso/create", curso);
+        NavigationManager.NavigateTo("professor/create");
+    } }

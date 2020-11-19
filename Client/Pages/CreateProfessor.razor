@@ -1,0 +1,53 @@
+﻿@page "/professor/create"
+@using System.Net.Http
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<div class="card m-3">
+    <h4 class="card-header">Cadastro de Professor</h4>
+    <div class="card-body">
+        <EditForm Model="@ProfessorDto" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="form-row">
+                <label>Nome do professor:</label>
+                <InputText @bind-Value="ProfessorDto.Nome" class="form-control" />
+            </div>
+            
+            <div class="form-row">
+                <label>Selecione o curso:</label>
+                <InputSelect @bind-Value="ProfessorDto.CursoId">
+                    <option value="">Selecione o curso...</option>
+                    @foreach (var curso in CursoList)
+                    {
+                        <option value="@curso.CursoId">@curso.Nome</option>                    
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="reset" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code { private ProfessorDto ProfessorDto = new ProfessorDto();
+    private EditContext editContext { get; set; }
+    private List<Curso> CursoList = new List<Curso>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var cursos = await Http.GetFromJsonAsync<List<Curso>>("/curso/list");
+        foreach (var curso in cursos)
+        {
+            CursoList.Add(curso);
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await Http.PostAsJsonAsync("professor/create", ProfessorDto);
+        NavigationManager.NavigateTo("professor/list");
+    } }

@@ -1,0 +1,18 @@
+<Router AppAssembly="@typeof(Program).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p>
+                Antonio Auguto RA: 592439
+                <br />
+                Caio Peres RA: 589500
+                <br />
+                Renan Borba RA: 588441
+                <br />
+                Yago Vela RA: 587631
+            </p>
+        </LayoutView>
+    </NotFound>
+</Router>

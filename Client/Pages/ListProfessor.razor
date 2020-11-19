@@ -1,0 +1,50 @@
+﻿@page  "/professor/list"
+@using System.Net.Http
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h3>Professores</h3>
+
+<div class="card-body">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Curso</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var professor in professorList)
+            {
+                <tr>
+                    <td>@professor.ProfessorNome</td>
+                    <td>@professor.CursoNome</td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(professor.ProfessorId))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code
+{ private List<ProfCursoDto> professorList = new List<ProfCursoDto>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var professors = await Http.GetFromJsonAsync<List<ProfCursoDto>>("professor/cursos");
+        foreach (var professor in professors)
+        {
+            professorList.Add(professor);
+        }
+    }
+
+    private async Task Delete(int professorId)
+    {
+        //call controller
+        await Http.DeleteAsync("/professor/delete/" + professorId);
+        NavigationManager.NavigateTo("Home/professor/list", true);
+    } }
